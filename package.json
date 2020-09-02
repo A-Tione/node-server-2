@@ -1,0 +1,8 @@
+{
+  "name": "node-server-2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/A-Tione/node-server-2.git",
+  "author": "a-tione <heyanggo@gmail.com>",
+  "license": "MIT"
+}
