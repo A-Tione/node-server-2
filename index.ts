@@ -1,26 +1,33 @@
 import * as http from 'http';
 import {IncomingMessage, ServerResponse} from 'http';
+import * as fs from 'fs';
+import * as p from 'path'; // 正确处理系统文件路径
 
 const server = http.createServer();
+const publicDir = p.resolve(__dirname, 'public'); // 当前文件路径
 
 server.on('request', (request: IncomingMessage, response: ServerResponse)=> {
-    console.log('有人请求了')
-    console.log(request.method);
-    console.log(request.url);
-    console.log(request.headers);
-    const array = []
-    request.on('data', chunk => {
-        array.push(chunk)
-    })
-    request.on('end', ()=> {
-        const body = Buffer.concat(array).toString();
-        console.log(body, 'body');
-        response.statusCode = 404
-        response.setHeader('xxx', 'yyy')
-        response.setHeader('Content-Type', 'image/img')
-        response.write('1\n')
-        response.end()
-    })
+    const {method, url, headers} = request;
+    switch (url) {
+        case '/index.html':
+            fs.readFile(p.resolve(publicDir, 'index.html'), (err, data) => {
+                if (err) throw err;
+                response.end(data.toString());
+            })
+            break;
+        case '/style.css':
+            fs.readFile(p.resolve(publicDir, 'style.css'), (err, data) => {
+                if (err) throw err
+                response.end(data.toString())
+            })
+            break;
+        case '/main.js':
+            fs.readFile(p.resolve(publicDir, 'main.js'), (err, data) => {
+                if (err) throw err
+                response.end(data.toString())
+            })
+            break;
+    }
 })
 
 server.listen(8888)
