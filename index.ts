@@ -6,6 +6,7 @@ import * as url from 'url'; // 处理url字符转相关api
 
 const server = http.createServer();
 const publicDir = p.resolve(__dirname, 'public'); // 当前文件路径
+let cacheAge = 365 * 86400
 
 server.on('request', (request: IncomingMessage, response: ServerResponse)=> {
     const {method, url: path, headers} = request; // url重命名为path字段
@@ -34,6 +35,7 @@ server.on('request', (request: IncomingMessage, response: ServerResponse)=> {
                 response.end('服务器繁忙，请稍后再试');
             }
         } else {
+            response.setHeader(`Cache-Control`, `public, max-age=${cacheAge}`)
             response.end(data)
         }
     })
