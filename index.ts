@@ -10,6 +10,12 @@ const publicDir = p.resolve(__dirname, 'public'); // 当前文件路径
 server.on('request', (request: IncomingMessage, response: ServerResponse)=> {
     const {method, url: path, headers} = request; // url重命名为path字段
     const {pathname, search} = url.parse(path); // pathname获取url路径的部分 search获取url序列化查询部分
+
+    if (method === 'POST') {
+        response.statusCode = 405
+        response.end()
+        return
+    }
     let filename = pathname.substr(1);
     if (filename === '') {
         filename = 'index.html'
