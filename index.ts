@@ -6,7 +6,7 @@ import * as url from 'url'; // 处理url字符转相关api
 
 const server = http.createServer();
 const publicDir = p.resolve(__dirname, 'public'); // 当前文件路径
-let cacheAge = 365 * 86400
+let cacheAge = 365 * 86400 // 可控制缓存时间
 
 server.on('request', (request: IncomingMessage, response: ServerResponse)=> {
     const {method, url: path, headers} = request; // url重命名为path字段
